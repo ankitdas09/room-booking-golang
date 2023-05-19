@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 
 	"github.com/ankitdas09/gowebapp/cmd/pkg/config"
+	"github.com/ankitdas09/gowebapp/cmd/pkg/models"
 )
 
 var app *config.AppConfig
@@ -16,7 +17,11 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func RenderTemplate(w http.ResponseWriter, t string) {
+func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+	return td
+}
+
+func RenderTemplate(w http.ResponseWriter, t string, td *models.TemplateData) {
 	// get the cache from application config
 	// tc, err := CreateTemlateCache()
 	var tc map[string]*template.Template
@@ -37,7 +42,8 @@ func RenderTemplate(w http.ResponseWriter, t string) {
 
 	// i. check if parsed data is correct
 	buff := new(bytes.Buffer)
-	err := tmpl.Execute(buff, nil)
+	td = AddDefaultData(td)
+	err := tmpl.Execute(buff, td)
 	if err != nil {
 		log.Println(err)
 	}
