@@ -3,5 +3,11 @@
 <div class="container">
     <h1>About page</h1>
     <p>{{index .StringMap "test"}}</p>
+    <p>Remote IP:
+    {{if ne (index .StringMap "remote_ip") ""}}
+     {{index .StringMap "remote_ip"}}</p>
+     {{else}}
+I dont know your ip address
+     {{end}}
 </div>
 {{ end }}
